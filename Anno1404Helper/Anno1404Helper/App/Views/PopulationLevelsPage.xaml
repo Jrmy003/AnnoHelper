@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Anno1404Helper.App.Views.PopulationLevelsPage"
+             xmlns:viewModels="clr-namespace:Anno1404Helper.App.ViewModels"
+             xmlns:models="clr-namespace:Anno1404Helper.App.Models">
+    
+    <ContentPage.BindingContext>
+        <viewModels:PopulationLevelsViewModel />
+    </ContentPage.BindingContext>
+    
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Start">
+            <CollectionView ItemsSource="{Binding PopulationLevels }"
+                            SelectedItem="{Binding SelectedItem}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:PopulationLevel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="{Binding Icon.Source}"></Image>
+                            <!-- <Label Grid.Column="1" Text="{Binding LocaText.French}" -->
+                            <!--        HorizontalTextAlignment="Center" -->
+                            <!--        VerticalTextAlignment="Center"/> -->
+                            <Entry Grid.Column="2" Text="{Binding Count, FallbackValue='', TargetNullValue=''}" Keyboard="Numeric"
+                                   Placeholder="Number"
+                                   ReturnType="Next"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="Needs" Command="{Binding ComputeNeedsCommand}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
