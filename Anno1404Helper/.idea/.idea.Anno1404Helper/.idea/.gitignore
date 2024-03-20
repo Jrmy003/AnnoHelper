@@ -11,6 +11,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-bin
-obj
+/Anno1404Helper/Anno1404Helper/obj
+/AnnoHelper/Anno1404Helper/Anno1404Helper/bin
 packages

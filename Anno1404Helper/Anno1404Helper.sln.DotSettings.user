@@ -3,4 +3,5 @@
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/SolBuilderDuo/CustomGlobalProperties/=AndroidSdkDirectory/@EntryIndexedValue">/home/theundercoder/Android/Sdk</s:String>
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/SolBuilderDuo/CustomGlobalProperties/=JavaSdkDirectory/@EntryIndexedValue">/home/theundercoder/Tools/jdk-11.0.22+7</s:String>
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/SolBuilderDuo/UseMsbuildSolutionBuilder/@EntryValue">No</s:String>
+	
 	</wpf:ResourceDictionary>
