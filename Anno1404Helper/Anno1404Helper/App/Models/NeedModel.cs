@@ -1,7 +1,31 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace Anno1404Helper.App.Models;
 
-public class NeedModel
+public class NeedModel : ObservableObject
 {
-    public ProductModel Product { get; set; }
-    public decimal ConsumptionPerMinute { get; set; }
+    private ProductModel _product;
+    private decimal _consumptionPerMinute;
+    private FactoryModel _factory;
+
+    public ProductModel Product
+    {
+        get => _product;
+        set => SetProperty(ref _product, value);
+    }
+
+    public decimal ConsumptionPerMinute
+    {
+        get => _consumptionPerMinute;
+        set => SetProperty(ref _consumptionPerMinute, value);
+    }
+
+    public FactoryModel Factory
+    {
+        get => _factory;
+        set => SetProperty(ref _factory, value);
+    }
+
+    public decimal FactoryPercentUsage => ConsumptionPerMinute / Factory.ProductionPerMinute;
+    public decimal NbFactoriesNeeded => Math.Ceiling(ConsumptionPerMinute / Factory.ProductionPerMinute);
 }

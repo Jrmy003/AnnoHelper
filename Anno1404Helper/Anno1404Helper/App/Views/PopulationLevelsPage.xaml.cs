@@ -7,7 +7,7 @@ public partial class PopulationLevelsPage : ContentPage
 {
     public PopulationLevelsPage()
     {
-        InitializeComponent();
         BindingContext = ServiceHelper.GetService<PopulationLevelsViewModel>();
+        InitializeComponent();
     }
 }

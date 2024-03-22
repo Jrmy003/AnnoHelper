@@ -13,6 +13,7 @@ public class Factory
     public string Name { get; set; }
     public List<Output> Outputs { get; set; }
     public decimal Tpmin { get; set; }
+    public string Base64Icon { get; set; }
 }
 
 public class GoodsProduction
@@ -25,6 +26,8 @@ public class Input
 {
     public decimal Amount { get; set; }
     public int Product { get; set; }
+    public Product ProductObject { get; set; }
+    public Factory Factory { get; set; }
 }
 
 public class LocaText
@@ -50,13 +53,15 @@ public class Need
     public int Guid { get; set; }
     public decimal Tpmin { get; set; }
     public UnlockCondition UnlockCondition { get; set; }
-    public Product Product { get; set; }
+    public Product ProductObject { get; set; }
+    public Factory Factory { get; set; }
 }
 
 public class Output
 {
     public int Amount { get; set; }
     public int Product { get; set; }
+    public Product ProductObject { get; set; }
 }
 
 public class PopulationLevel
@@ -69,7 +74,6 @@ public class PopulationLevel
     public List<Need> Needs { get; set; }
     public int Residence { get; set; }
     public int? ResidenceUpgradeAmountMaxPercent { get; set; }
-    public Product Product { get; set; }
     public string Base64Icon { get; set; }
 }
 

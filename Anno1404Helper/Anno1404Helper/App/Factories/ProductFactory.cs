@@ -1,12 +1,14 @@
 using Anno1404Helper.App.Json;
 using Anno1404Helper.App.Models;
 
-namespace Anno1404Helper.App.Factory;
+namespace Anno1404Helper.App.Factories;
 
 public static class ProductFactory
 {
     public static ProductModel ToModel(Product product)
     {
+        if (product == null) throw new ArgumentNullException(nameof(product));
+        
         return new ProductModel
         {
             Id = product.Guid,

@@ -6,9 +6,11 @@ public class PopulationLevelModel : ObservableObject
 {
     private int _id;
     private string _name;
-    private string _count;
+    private decimal? _count;
     private string _iconData;
-    private List<NeedModel> _consumptions;
+    private List<NeedModel> _need;
+    private decimal _fullHouse;
+    private int? _residenceUpgradeAmountMaxPercent;
 
     public int Id
     {
@@ -21,16 +23,16 @@ public class PopulationLevelModel : ObservableObject
         set => SetProperty(ref _name, value);
     }
 
-    public string Count
+    public decimal? Count
     {
         get => _count;
         set => SetProperty(ref _count, value);
     }
 
-    public List<NeedModel> Consumptions
+    public List<NeedModel> Need
     {
-        get => _consumptions;
-        set => SetProperty(ref _consumptions, value);
+        get => _need;
+        set => SetProperty(ref _need, value);
     }
     
     public string IconData
@@ -51,4 +53,18 @@ public class PopulationLevelModel : ObservableObject
             return ImageSource.FromStream(() => imageDecodeStream);
         }
     }
+
+    public decimal FullHouse
+    {
+        get => _fullHouse;
+        set => SetProperty(ref _fullHouse, value);
+    }
+
+    public int? ResidenceUpgradeAmountMaxPercent
+    {
+        get => _residenceUpgradeAmountMaxPercent;
+        set => SetProperty(ref _residenceUpgradeAmountMaxPercent, value);
+    }
+
+    public ReturnType ReturnType => _id == 51910 ? ReturnType.Done : ReturnType.Next;
 }

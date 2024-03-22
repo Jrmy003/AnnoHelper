@@ -1,4 +1,4 @@
-using Anno1404Helper.App.Factory;
+using Anno1404Helper.App.Factories;
 using Anno1404Helper.App.Json;
 using Anno1404Helper.App.Models;
 using Newtonsoft.Json;
@@ -8,33 +8,58 @@ namespace Anno1404Helper.App.Services;
 public class Anno1404Service
 {
     public List<PopulationLevelModel> PopulationLevelModels { get; set; }
+    public List<FactoryModel> FactoryModels { get; set; }
     public Anno1404Data Anno1404Data { get; set; }
-    public async Task LoadJson()
+    public async Task<bool> LoadJsonAsync()
     {
         await using var stream = await FileSystem.OpenAppPackageFileAsync("params_origin.json");
         using var reader = new StreamReader(stream);
         
-        // UNCOMMENT TO CREATE DATABASE ONCE
         Anno1404Data = JsonConvert.DeserializeObject<Anno1404Data>(await reader.ReadToEndAsync());
 
+        foreach (var product in Anno1404Data.Products)
+        {
+            product.Base64Icon = GetBase64Icon(product.IconPath);
+        }
+
+        foreach (var factory in Anno1404Data.Factories)
+        {
+            factory.Base64Icon = GetBase64Icon(factory.IconPath);
+            foreach (var input in factory.Inputs)
+            {
+                input.ProductObject = Anno1404Data.Products.FirstOrDefault(x => x.Guid == input.Product);
+                input.Factory = Anno1404Data.Factories.FirstOrDefault(x => x.Outputs[0]?.Product == input.Product);
+            }
+            
+            foreach (var output in factory.Outputs)
+            {
+                output.ProductObject = Anno1404Data.Products.FirstOrDefault(x => x.Guid == output.Product);
+            }
+        }
+        
         foreach (var populationLevel in Anno1404Data.PopulationLevels)
         {
             populationLevel.Base64Icon = GetBase64Icon(populationLevel.IconPath);
             foreach (var need in populationLevel.Needs)
             {
-                need.Product = Anno1404Data.Products.FirstOrDefault(x => x.Guid == need.Guid);
+                need.ProductObject = Anno1404Data.Products.FirstOrDefault(x => x.Guid == need.Guid);
+                foreach (var factory in Anno1404Data.Factories)
+                {
+                    if (factory.Outputs != null && factory.Outputs.Count == 1 &&
+                        factory.Outputs[0].Product == need.ProductObject?.Guid)
+                    {
+                        need.Factory = factory;
+                        break;
+                    }
+                }
             }
-        }
-        
-        foreach (var product in Anno1404Data.Products)
-        {
-            product.Base64Icon = GetBase64Icon(product.IconPath);
+
         }
         
         PopulationLevelModels = Anno1404Data.PopulationLevels.ConvertAll(PopulationLevelFactory.ToModel);
-
+        FactoryModels = Anno1404Data.Factories.ConvertAll(FactoryFactory.ToModel);
         
-        // await Save(data);
+        return true;
     }
 
     private string GetBase64Icon(string iconPath)

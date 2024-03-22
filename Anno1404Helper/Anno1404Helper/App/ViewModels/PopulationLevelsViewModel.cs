@@ -10,7 +10,6 @@ namespace Anno1404Helper.App.ViewModels;
 
 public partial class PopulationLevelsViewModel : ObservableObject
 {
-    public event EventHandler Initialize;
     private ObservableCollection<PopulationLevelModel> _populationLevels;
     private PopulationLevelModel _selectedItem;
 
@@ -30,13 +29,12 @@ public partial class PopulationLevelsViewModel : ObservableObject
 
     public PopulationLevelsViewModel()
     {
-        Initialize += OnInitialize;
-        Initialize?.Invoke(this, EventArgs.Empty);
+        Initialize();
     }
 
-    private async void OnInitialize(object sender, EventArgs e)
+    private async void Initialize()
     {
-        await _anno1404Service.LoadJson();
+        await _anno1404Service.LoadJsonAsync();
         PopulationLevels = new ObservableCollection<PopulationLevelModel>(_anno1404Service.PopulationLevelModels);
     }
 
@@ -45,34 +43,36 @@ public partial class PopulationLevelsViewModel : ObservableObject
     {
         
         // // _anno1404Service.UpdateNeededProducts(PopulationLevelModels.ToList());
-        // var dico = new Dictionary<int, ConsumptionModel>();
-        // foreach (var PopulationLevelModel in _populationLevels)
-        // {
-        //     foreach (var consumption in PopulationLevelModel.Consumptions)
-        //     {
-        //         if (dico.TryGetValue(consumption.Product.Guid, out var value))
-        //         {
-        //             value.ConsumptionPerMinute += PopulationLevelModel.Count ?? 0 * consumption.Tpmin;
-        //         }
-        //         else
-        //         {
-        //             var newNeed = new ConsumptionModel
-        //             {
-        //                 Guid = consumption.Guid,
-        //                 Product = consumption.Product,
-        //                 Tpmin = consumption.Tpmin * PopulationLevelModel.Count ?? 0
-        //             };
-        //             dico.Add(consumption.Guid, newNeed);
-        //         }
-        //     }
-        // }
+        var dico = new Dictionary<int, NeedModel>();
+        foreach (var populationLevelModel in _populationLevels)
+        {
+            foreach (var need in populationLevelModel.Need)
+            {
+                if (dico.TryGetValue(need.Product.Id, out var value))
+                {
+                    value.ConsumptionPerMinute += (populationLevelModel.Count ??
+                                                  0 / populationLevelModel.FullHouse) * need.ConsumptionPerMinute;
+                }
+                else
+                {
+                    var newNeed = new NeedModel
+                    {
+                        Product = need.Product,
+                        ConsumptionPerMinute = (populationLevelModel.Count ?? 0 / populationLevelModel.FullHouse) * need.ConsumptionPerMinute,
+                        Factory = need.Factory
+                    };
+                    dico.Add(need.Product.Id, newNeed);
+                }
+            }
+        }
 
+        var page = new ConsumptionPage();
         var consumptionViewModel = ServiceHelper.GetService<ConsumptionViewModel>();
         if (consumptionViewModel == null)
             throw new NullReferenceException(nameof(consumptionViewModel));
-        // consumptionViewModel.
-            
-        await Shell.Current.Navigation.PushAsync(new ConsumptionPage(consumptionViewModel), true);
+        consumptionViewModel.Needs = new(dico.Values);
+        page.BindingContext = consumptionViewModel;
+        await Shell.Current.Navigation.PushAsync(page, true);
     }
 
     [RelayCommand]

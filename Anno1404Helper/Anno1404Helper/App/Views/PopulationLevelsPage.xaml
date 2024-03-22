@@ -4,13 +4,23 @@
              x:Class="Anno1404Helper.App.Views.PopulationLevelsPage"
              xmlns:viewModels="clr-namespace:Anno1404Helper.App.ViewModels"
              xmlns:models="clr-namespace:Anno1404Helper.App.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="viewModels:PopulationLevelsViewModel">
+    
+    <!-- <ContentPage.BindingContext> -->
+    <!--     <viewModels:PopulationLevelsViewModel/> -->
+    <!-- </ContentPage.BindingContext> -->
     
     <ScrollView VerticalOptions="Fill">
         <VerticalStackLayout
             Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Fill">
+            Padding="30"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill">
+            <!-- <ActivityIndicator IsRunning="True" -->
+            <!--                    IsVisible="True" -->
+            <!--                    VerticalOptions="Fill" -->
+            <!--                    HorizontalOptions="Fill"/> -->
             <CollectionView ItemsSource="{Binding PopulationLevels }"
                             SelectedItem="{Binding SelectedItem}">
                 <CollectionView.ItemTemplate>
@@ -21,21 +31,27 @@
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="{Binding Icon}"/>
+                            <toolkit:AvatarView Grid.Column="0"
+                                                BorderColor="{StaticResource Gray500}"
+                                                BorderWidth="5"
+                                                ImageSource="{Binding Icon}" />
+            
                             <Label Grid.Column="1" Text="{Binding Name}"
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"/>
-                            <Entry Grid.Column="2" Text="{Binding Count, FallbackValue='', TargetNullValue=''}"
+            
+                            <Entry Grid.Column="2" Text="{Binding Count,
+                            FallbackValue='', TargetNullValue=''}"
                                    Keyboard="Numeric"
                                    Placeholder="Number"
-                                   ReturnType="Next"
+                                   ReturnType="{Binding ReturnType}"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Text="Needs"
+            <Button Text="Compute Needs"
                     Command="{Binding ComputeNeedsCommand}"
                     VerticalOptions="End"/>
         </VerticalStackLayout>
