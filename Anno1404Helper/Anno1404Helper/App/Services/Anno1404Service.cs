@@ -10,18 +10,25 @@ public class Anno1404Service
     public List<PopulationLevelModel> PopulationLevelModels { get; set; }
     public List<FactoryModel> FactoryModels { get; set; }
     public Anno1404Data Anno1404Data { get; set; }
-    public async Task<bool> LoadJsonAsync()
+    
+    /// <summary>
+    /// Loads json and convert json structure to internal models structure
+    /// </summary>
+    /// <returns></returns>
+    public async Task LoadJsonAsync()
     {
         await using var stream = await FileSystem.OpenAppPackageFileAsync("params_origin.json");
         using var reader = new StreamReader(stream);
         
         Anno1404Data = JsonConvert.DeserializeObject<Anno1404Data>(await reader.ReadToEndAsync());
 
+        //loads products icons
         foreach (var product in Anno1404Data.Products)
         {
             product.Base64Icon = GetBase64Icon(product.IconPath);
         }
 
+        // loads factories icons, and associate products to inputs and outputs
         foreach (var factory in Anno1404Data.Factories)
         {
             factory.Base64Icon = GetBase64Icon(factory.IconPath);
@@ -37,6 +44,7 @@ public class Anno1404Service
             }
         }
         
+        // loads icons to population levels, and associate factory to need through product id
         foreach (var populationLevel in Anno1404Data.PopulationLevels)
         {
             populationLevel.Base64Icon = GetBase64Icon(populationLevel.IconPath);
@@ -56,94 +64,20 @@ public class Anno1404Service
 
         }
         
+        // saves data in service while app dont not have database
         PopulationLevelModels = Anno1404Data.PopulationLevels.ConvertAll(PopulationLevelFactory.ToModel);
         FactoryModels = Anno1404Data.Factories.ConvertAll(FactoryFactory.ToModel);
-        
-        return true;
     }
 
+    /// <summary>
+    /// Gets the base 64 icon data from icon path.
+    /// </summary>
+    /// <param name="iconPath">the icon's path</param>
+    /// <returns></returns>
     private string GetBase64Icon(string iconPath)
     {
         return Anno1404Data.Icons.TryGetValue(iconPath, out var icon)
             ? icon.Substring(22)
             : null;
     }
-    
-    public async Task Save(Anno1404Data data)
-    {
-    // public List<string> Languages { get; set; }
-    // public List<object> PopulationGroups { get; set; }
-    // public List<PopulationLevel> PopulationLevels { get; set; }
-    // public List<ProductFilter> ProductFilter { get; set; }
-    // public List<Product> Products { get; set; }
-    // public List<ResidenceBuilding> ResidenceBuildings { get; set; }
-    // public List<Trader> Traders { get; set; }
-    // public List<object> Workforce { get; set; }
-        // using var db = GetDatabase();
-        // var factories = db.GetCollection<Factory>();
-        // var icons = db.GetCollection<Icons>();
-        // var populationLevels = db.GetCollection<PopulationLevel>();
-        // var products = db.GetCollection<Product>();
-        // var languages = db.GetCollection<string>();
-        //
-        // await factories.InsertAsync(data.Factories);
-        // await icons.InsertAsync(data.Icons);
-        // await populationLevels.InsertAsync(data.PopulationLevels);
-        // await products.InsertAsync(data.Products);
-        // await languages.InsertAsync(data.Languages);
-    }
-    //
-    // public async Task<List<PopulationLevelModel>> GetPopulationLevels()
-    // {
-    //     // using var db = GetDatabase();
-    //     // var populationLevels = db.GetCollection<PopulationLevel>();
-    //     //
-    //     // var models = await populationLevels
-    //     //     .Query()
-    //     //     .Include(x=>x.Needs)
-    //     //     .Select(x=> new PopulationLevelModel()
-    //     //     {
-    //     //         Name = x.LocaText.French,
-    //     //         IconPath = x.IconPath,
-    //     //         Consumptions = 
-    //     //         
-    //     //     }).
-    //     //    
-    //     //
-    //     // var toto = new Icons().
-    //     // // have to find a way to get the right icon
-    //     // // var icons = db.GetCollection<Icons>();
-    //     // // foreach (var model in models)
-    //     // // {
-    //     // //     model.IconPath = await icons.FindOneAsync($"{model.IconPath}");
-    //     // // }
-    //     // return null;
-    // }
-    //
-    // public void UpdateNeededProducts(List<PopulationLevel> populationLevels)
-    // {
-    //     // PopulationLevels = populationLevels;
-    //     NeededProducts = new ();
-    //     // foreach (var populationLevel in populationLevels)
-    //     // {
-    //     //     foreach (var need in populationLevel.Needs)
-    //     //     {
-    //     //         var amout = populationLevel.Count ?? 0;
-    //     //         var tpmin = need.Tpmin;
-    //     //         if (NeededProducts.ContainsKey(need.Guid))
-    //     //         {
-    //     //             NeededProducts.Add(need.Guid, new ConsumptionModel
-    //     //             {
-    //     //                 Amount = amout;
-    //     //             });
-    //     //         }
-    //     //         else
-    //     //         {
-    //     //             NeededProducts[need.Guid].Amount += amout;
-    //     //         }
-    //     //     }
-    //     // }
-    //
-    //
-    // }
 }

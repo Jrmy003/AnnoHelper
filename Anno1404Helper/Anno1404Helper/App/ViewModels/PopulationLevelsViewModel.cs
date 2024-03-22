@@ -32,9 +32,14 @@ public partial class PopulationLevelsViewModel : ObservableObject
         Initialize();
     }
 
+    /// <summary>
+    /// Initialize data to display.
+    /// </summary>
     private async void Initialize()
     {
+        // load json and convert everything to models
         await _anno1404Service.LoadJsonAsync();
+        // gets population levels models to display
         PopulationLevels = new ObservableCollection<PopulationLevelModel>(_anno1404Service.PopulationLevelModels);
     }
 
@@ -42,7 +47,7 @@ public partial class PopulationLevelsViewModel : ObservableObject
     private async Task ComputeNeeds()
     {
         
-        // // _anno1404Service.UpdateNeededProducts(PopulationLevelModels.ToList());
+        // cumulates needs of every population level in a flat list using dictionary
         var dico = new Dictionary<int, NeedModel>();
         foreach (var populationLevelModel in _populationLevels)
         {
@@ -66,18 +71,22 @@ public partial class PopulationLevelsViewModel : ObservableObject
             }
         }
 
+        // instantiates view and associate it to its viewmodel
+        // TODO : Have to define in which order these instructions have to be called to optimize loading of next screen
         var page = new ConsumptionPage();
         var consumptionViewModel = ServiceHelper.GetService<ConsumptionViewModel>();
         if (consumptionViewModel == null)
             throw new NullReferenceException(nameof(consumptionViewModel));
         consumptionViewModel.Needs = new(dico.Values);
         page.BindingContext = consumptionViewModel;
+        
+        //displays the view 
         await Shell.Current.Navigation.PushAsync(page, true);
     }
 
-    [RelayCommand]
-    private async Task Back()
-    {
-        await Shell.Current.Navigation.PopAsync();
-    }
+    // [RelayCommand]
+    // private async Task Back()
+    // {
+    //     await Shell.Current.Navigation.PopAsync();
+    // }
 }
