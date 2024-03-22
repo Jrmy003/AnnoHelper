@@ -32,8 +32,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <toolkit:AvatarView Grid.Column="0"
-                                                BorderColor="{StaticResource Gray500}"
-                                                BorderWidth="5"
+                                                BorderColor="{DynamicResource Primary}"
                                                 ImageSource="{Binding Icon}" />
             
                             <Label Grid.Column="1" Text="{Binding Name}"
