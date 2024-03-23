@@ -5,44 +5,36 @@
              xmlns:viewModels="clr-namespace:Anno1404Helper.App.ViewModels"
              xmlns:models="clr-namespace:Anno1404Helper.App.Models"
              x:Class="Anno1404Helper.App.Views.ConsumptionPage"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="viewModels:ConsumptionViewModel">
 
 
-    <!-- <ContentPage.BindingContext> -->
-    <!--     <viewModels:ConsumptionViewModel /> -->
-    <!-- </ContentPage.BindingContext> -->
-
     <ScrollView VerticalOptions="Fill">
-        <VerticalStackLayout
-            VerticalOptions="Fill">
+        <VerticalStackLayout>
 
-            <!-- TESTER DATAGRID https://github.com/akgulebubekir/Maui.DataGrid -->
-            <ListView ItemsSource="{Binding Needs }"
-                      SelectedItem="{Binding SelectedNeed}">
-                <ListView.ItemTemplate>
+            <CollectionView ItemsSource="{Binding Needs }"
+                            SelectedItem="{Binding SelectedNeed}"
+                            SelectionMode="Single"
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill">
+                <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:NeedModel">
-                        <ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="50" />
-                                </Grid.ColumnDefinitions>
+                        <Border
+                            Padding="2"
+                            Margin="5">
+                            <Grid ColumnDefinitions="50,100,*,35,50" RowDefinitions="50">
                                 <Image Grid.Column="0" Source="{Binding Product.Icon}" />
-                                <Label Grid.Column="1" Text="{Binding Factory.ProductionPerMinute}" />
-                                <Label Grid.Column="2"
+                                <Label Grid.Column="1" Text="{Binding Factory.Name}" />
+                                <ProgressBar Grid.Column="2" Progress="{Binding FactoryDecimalUsage}"  />
+                                <Label Grid.Column="3" Text="{Binding FactoryPercentUsage, StringFormat='{0:F0}%'}" />
+                                <Label Grid.Column="4"
+                                       FontAttributes="Bold"
                                        Text="{Binding NbFactoriesNeeded,
                             StringFormat='{0:F2}'}" />
-                                <Label Grid.Column="3"
-                                       Text="{Binding ConsumptionPerMinute,
-                            StringFormat='{0:F2}'}" />
                             </Grid>
-                        </ViewCell>
+                        </Border>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

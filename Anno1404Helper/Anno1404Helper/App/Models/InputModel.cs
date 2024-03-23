@@ -6,7 +6,6 @@ public class InputModel : ObservableObject
 {
     private decimal _amount;
     private int _productId;
-    private ProductModel _product;
     private FactoryModel _factory;
 
     public decimal Amount
@@ -26,4 +25,6 @@ public class InputModel : ObservableObject
         get => _factory;
         set => SetProperty(ref _factory, value);
     }
+
+    public decimal NeededFactories => Factory.ProductionPerMinute;
 }

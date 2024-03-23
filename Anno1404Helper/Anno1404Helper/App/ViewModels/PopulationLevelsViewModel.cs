@@ -46,47 +46,15 @@ public partial class PopulationLevelsViewModel : ObservableObject
     [RelayCommand]
     private async Task ComputeNeeds()
     {
-        
-        // cumulates needs of every population level in a flat list using dictionary
-        var dico = new Dictionary<int, NeedModel>();
-        foreach (var populationLevelModel in _populationLevels)
-        {
-            foreach (var need in populationLevelModel.Need)
-            {
-                if (dico.TryGetValue(need.Product.Id, out var value))
-                {
-                    value.ConsumptionPerMinute += (populationLevelModel.Count ??
-                                                  0 / populationLevelModel.FullHouse) * need.ConsumptionPerMinute;
-                }
-                else
-                {
-                    var newNeed = new NeedModel
-                    {
-                        Product = need.Product,
-                        ConsumptionPerMinute = (populationLevelModel.Count ?? 0 / populationLevelModel.FullHouse) * need.ConsumptionPerMinute,
-                        Factory = need.Factory
-                    };
-                    dico.Add(need.Product.Id, newNeed);
-                }
-            }
-        }
-
         // instantiates view and associate it to its viewmodel
-        // TODO : Have to define in which order these instructions have to be called to optimize loading of next screen
         var page = new ConsumptionPage();
         var consumptionViewModel = ServiceHelper.GetService<ConsumptionViewModel>();
         if (consumptionViewModel == null)
-            throw new NullReferenceException(nameof(consumptionViewModel));
-        consumptionViewModel.Needs = new(dico.Values);
+            return;
+        consumptionViewModel.PopulationLevels = PopulationLevels;
         page.BindingContext = consumptionViewModel;
         
         //displays the view 
         await Shell.Current.Navigation.PushAsync(page, true);
     }
-
-    // [RelayCommand]
-    // private async Task Back()
-    // {
-    //     await Shell.Current.Navigation.PopAsync();
-    // }
 }

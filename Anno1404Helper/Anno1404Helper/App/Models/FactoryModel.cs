@@ -1,3 +1,4 @@
+using Android.Content.Res;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Anno1404Helper.App.Models;
@@ -9,7 +10,7 @@ public class FactoryModel : ObservableObject
     private List<InputModel> _inputs;
     private string _name;
     private List<OutputModel> _outputs;
-    private decimal _tpmin;
+    private decimal _productionPerMinute;
 
     public int Id
     {
@@ -20,7 +21,11 @@ public class FactoryModel : ObservableObject
     public List<InputModel> Inputs
     {
         get => _inputs;
-        set => SetProperty(ref _inputs, value);
+        set
+        {
+            if (SetProperty(ref _inputs, value))
+                OnPropertyChanged(nameof(HasInputs));
+        }
     }
 
     public string Name
@@ -37,8 +42,8 @@ public class FactoryModel : ObservableObject
 
     public decimal ProductionPerMinute
     {
-        get => _tpmin;
-        set => SetProperty(ref _tpmin, value);
+        get => _productionPerMinute;
+        set => SetProperty(ref _productionPerMinute, value);
     }
 
 
@@ -59,5 +64,28 @@ public class FactoryModel : ObservableObject
             MemoryStream imageDecodeStream = new(imageBytes);
             return ImageSource.FromStream(() => imageDecodeStream);
         }
+    }
+
+    /// <summary>
+    /// Indicates if this factory need inputs.
+    /// </summary>
+    public bool HasInputs => (_inputs?.Count ?? 0) > 0;
+    
+    public override bool Equals(object obj)
+    {
+        var factory = obj as FactoryModel;
+        if (factory == null)
+            return false;
+        return Equals(factory);
+    }
+
+    protected bool Equals(FactoryModel other)
+    {
+        return _id == other._id;
+    }
+
+    public override int GetHashCode()
+    {
+        return _id;
     }
 }

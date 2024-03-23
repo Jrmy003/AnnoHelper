@@ -12,32 +12,17 @@
     <!-- </ContentPage.BindingContext> -->
     
     <ScrollView VerticalOptions="Fill">
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30"
-            VerticalOptions="Fill"
-            HorizontalOptions="Fill">
-            <!-- <ActivityIndicator IsRunning="True" -->
-            <!--                    IsVisible="True" -->
-            <!--                    VerticalOptions="Fill" -->
-            <!--                    HorizontalOptions="Fill"/> -->
+        <VerticalStackLayout>
             <CollectionView ItemsSource="{Binding PopulationLevels }"
                             SelectedItem="{Binding SelectedItem}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PopulationLevelModel">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                        <Grid ColumnDefinitions="50,100,*">
                             <toolkit:AvatarView Grid.Column="0"
                                                 BorderColor="{DynamicResource Primary}"
                                                 ImageSource="{Binding Icon}" />
             
-                            <Label Grid.Column="1" Text="{Binding Name}"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Text="{Binding Name}"/>
             
                             <Entry Grid.Column="2" Text="{Binding Count,
                             FallbackValue='', TargetNullValue=''}"

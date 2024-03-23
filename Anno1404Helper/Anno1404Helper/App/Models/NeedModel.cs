@@ -26,6 +26,10 @@ public class NeedModel : ObservableObject
         set => SetProperty(ref _factory, value);
     }
 
-    public decimal FactoryPercentUsage => ConsumptionPerMinute / Factory.ProductionPerMinute;
+    public decimal FactoryPercentUsage => FactoryDecimalUsage * 100;
+    public decimal FactoryDecimalUsage => ConsumptionPerMinute == 0
+        ? 0
+        : (Factory.ProductionPerMinute - ((NbFactoriesNeeded * Factory.ProductionPerMinute) - ConsumptionPerMinute))
+          / Factory.ProductionPerMinute;
     public decimal NbFactoriesNeeded => Math.Ceiling(ConsumptionPerMinute / Factory.ProductionPerMinute);
 }
