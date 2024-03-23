@@ -9,32 +9,36 @@
 
 
     <ScrollView VerticalOptions="Fill">
-        <VerticalStackLayout>
-
-            <CollectionView ItemsSource="{Binding Needs }"
+        <VerticalStackLayout >
+            <StackLayout></StackLayout>
+                
+            <ListView ItemsSource="{Binding Needs }"
+                            HasUnevenRows="True"
                             SelectedItem="{Binding SelectedNeed}"
                             SelectionMode="Single"
                             VerticalOptions="Fill"
                             HorizontalOptions="Fill">
-                <CollectionView.ItemTemplate>
+                <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:NeedModel">
-                        <Border
-                            Padding="2"
-                            Margin="5">
-                            <Grid ColumnDefinitions="50,100,*,35,50" RowDefinitions="50">
-                                <Image Grid.Column="0" Source="{Binding Product.Icon}" />
-                                <Label Grid.Column="1" Text="{Binding Factory.Name}" />
-                                <ProgressBar Grid.Column="2" Progress="{Binding FactoryDecimalUsage}"  />
-                                <Label Grid.Column="3" Text="{Binding FactoryPercentUsage, StringFormat='{0:F0}%'}" />
-                                <Label Grid.Column="4"
-                                       FontAttributes="Bold"
-                                       Text="{Binding NbFactoriesNeeded,
+                        <ViewCell>
+                            <Border
+                                Padding="2"
+                                Margin="5">
+                                <Grid ColumnDefinitions="50,100,*,35,50" RowDefinitions="50">
+                                    <Image Grid.Column="0" Source="{Binding Product.Icon}" />
+                                    <Label Grid.Column="1" Text="{Binding Factory.Name}" />
+                                    <ProgressBar Grid.Column="2" Progress="{Binding FactoryDecimalUsage}" />
+                                    <Label Grid.Column="3" Text="{Binding FactoryPercentUsage, StringFormat='{0:F0}%'}" />
+                                    <Label Grid.Column="4"
+                                           FontAttributes="Bold"
+                                           Text="{Binding NbFactoriesNeeded,
                             StringFormat='{0:F2}'}" />
-                            </Grid>
-                        </Border>
+                                </Grid>
+                            </Border>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </ListView.ItemTemplate>
+            </ListView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
