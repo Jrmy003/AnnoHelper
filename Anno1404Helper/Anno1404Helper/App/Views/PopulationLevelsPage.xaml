@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Anno1404Helper.App.Views.PopulationLevelsPage"
@@ -6,38 +7,39 @@
              xmlns:models="clr-namespace:Anno1404Helper.App.Models"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="viewModels:PopulationLevelsViewModel">
-    
-    <!-- <ContentPage.BindingContext> -->
-    <!--     <viewModels:PopulationLevelsViewModel/> -->
-    <!-- </ContentPage.BindingContext> -->
-    
+
     <ScrollView VerticalOptions="Fill">
         <VerticalStackLayout>
             <CollectionView ItemsSource="{Binding PopulationLevels }"
                             SelectedItem="{Binding SelectedItem}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PopulationLevelModel">
-                        <Grid ColumnDefinitions="50,100,*">
+                        <Grid ColumnDefinitions="50,100,*"
+                              Padding="2">
                             <toolkit:AvatarView Grid.Column="0"
-                                                BorderColor="{DynamicResource Primary}"
+                                                BorderColor="{AppThemeBinding
+                                                Light={StaticResource Primary},
+                                                Dark={StaticResource Quaternary}}"
+                                                BorderWidth="2"
                                                 ImageSource="{Binding Icon}" />
-            
-                            <Label Grid.Column="1" Text="{Binding Name}"/>
-            
-                            <Entry Grid.Column="2" Text="{Binding Count,
+
+                            <Label Grid.Column="1" Text="{Binding Name}" />
+
+                            <Entry Grid.Column="2"
+                                   Text="{Binding Count,
                             FallbackValue='', TargetNullValue=''}"
                                    Keyboard="Numeric"
                                    Placeholder="Number"
                                    ReturnType="{Binding ReturnType}"
                                    HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
+                                   VerticalTextAlignment="Center" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <Button Text="Compute Needs"
                     Command="{Binding ComputeNeedsCommand}"
-                    VerticalOptions="End"/>
+                    VerticalOptions="End" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

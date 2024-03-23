@@ -32,7 +32,7 @@
                                     <Label Grid.Column="4"
                                            FontAttributes="Bold"
                                            Text="{Binding NbFactoriesNeeded,
-                            StringFormat='{0:F2}'}" />
+                            StringFormat='{0:F0}'}" />
                                 </Grid>
                             </Border>
                         </ViewCell>
