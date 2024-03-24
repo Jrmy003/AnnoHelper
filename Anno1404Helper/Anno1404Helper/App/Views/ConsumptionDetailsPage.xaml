@@ -15,27 +15,31 @@
                 Light={StaticResource Gray100},
                 Dark={StaticResource Gray600}}">
                 <Grid ColumnDefinitions="50,*,50">
-                    <Image Grid.Column="0" Source="{Binding Factory.Icon}" />
+                    <Image Grid.Column="0" Source="{Binding Factory.Icon}"/>
                     <Label Grid.Column="1" Text="{Binding Factory.Name}" />
                     <Label Grid.Column="2" Text="1" />
                 </Grid>
             </Border>
-            <CollectionView ItemsSource="{Binding Nodes }">
-                <CollectionView.ItemTemplate>
+            <ListView ItemsSource="{Binding Nodes }"
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:InputModel">
-                        <Border
-                            Padding="2"
-                            Margin="5">
-                            <Grid ColumnDefinitions="50,*,50">
-                                <Image Grid.Column="0" Source="{Binding ChildFactory.Icon}" />
-                                <Label Grid.Column="1" Text="{Binding ChildFactory.Name}" />
-                                <Label Grid.Column="2" Text="{Binding NeededFactories,
+                        <ViewCell>
+                            <Border
+                                Padding="2"
+                                Margin="5">
+                                <Grid ColumnDefinitions="50,*,50">
+                                    <Image Grid.Column="0" Source="{Binding ChildFactory.Icon}" />
+                                    <Label Grid.Column="1" Text="{Binding ChildFactory.Name}" />
+                                    <Label Grid.Column="2"
+                                           Text="{Binding NeededFactories,
                                 StringFormat='{0:F0}'}" />
-                            </Grid>
-                        </Border>
+                                </Grid>
+                            </Border>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </ListView.ItemTemplate>
+            </ListView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

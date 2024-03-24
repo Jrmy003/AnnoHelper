@@ -5,12 +5,12 @@ namespace Anno1404Helper.App.Models;
 public class FactoryModel : ObservableObject
 {
     private int _id;
-    private string _iconData;
     private List<InputModel> _inputs;
     private string _name;
     private List<OutputModel> _outputs;
     private decimal _productionPerMinute;
     private int _amoutNeeded;
+    private ImageSource _icon;
 
     public int Id
     {
@@ -46,23 +46,10 @@ public class FactoryModel : ObservableObject
         set => SetProperty(ref _productionPerMinute, value);
     }
 
-    public string IconData
-    {
-        get => _iconData;
-        set
-        {
-            if (SetProperty(ref _iconData, value)) OnPropertyChanged(nameof(Icon));
-        }
-    }
-
     public ImageSource Icon
     {
-        get
-        {
-            var imageBytes = Convert.FromBase64String(IconData);
-            MemoryStream imageDecodeStream = new(imageBytes);
-            return ImageSource.FromStream(() => imageDecodeStream);
-        }
+        get => _icon;
+        set => SetProperty(ref _icon, value);
     }
 
     /// <summary>

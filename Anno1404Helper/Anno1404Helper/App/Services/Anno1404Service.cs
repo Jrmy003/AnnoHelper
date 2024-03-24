@@ -61,11 +61,11 @@ public class Anno1404Service
                     }
                 }
             }
-
         }
         
         // saves data in service while app dont not have database
-        PopulationLevelModels = Anno1404Data.PopulationLevels.ConvertAll(PopulationLevelFactory.ToModel);
+        PopulationLevelModels = Anno1404Data.PopulationLevels.ConvertAll(PopulationLevelFactory.ToModel)
+            .OrderBy(x=>x.Order).ToList();
         FactoryModels = Anno1404Data.Factories.ConvertAll(FactoryFactory.ToModel);
     }
 

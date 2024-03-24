@@ -5,9 +5,9 @@ namespace Anno1404Helper.App.Views;
 
 public partial class PopulationLevelsPage : ContentPage
 {
-    public PopulationLevelsPage()
+    public PopulationLevelsPage(PopulationLevelsViewModel vm)
     {
-        BindingContext = ServiceHelper.GetService<PopulationLevelsViewModel>();
         InitializeComponent();
+        BindingContext = vm;
     }
 }

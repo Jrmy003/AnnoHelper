@@ -9,11 +9,13 @@ public static class ProductFactory
     {
         if (product == null) throw new ArgumentNullException(nameof(product));
         
+        var imageBytes = Convert.FromBase64String(product.Base64Icon);
+        MemoryStream imageDecodeStream = new(imageBytes);
         return new ProductModel
         {
             Id = product.Guid,
             Name = product.LocaText.English,
-            IconData = product.Base64Icon
+            Icon = ImageSource.FromStream(() => imageDecodeStream)
         };
     }
 }

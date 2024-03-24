@@ -5,12 +5,13 @@
              xmlns:viewModels="clr-namespace:Anno1404Helper.App.ViewModels"
              xmlns:models="clr-namespace:Anno1404Helper.App.Models"
              x:Class="Anno1404Helper.App.Views.ConsumptionPage"
-             x:DataType="viewModels:ConsumptionViewModel">
+             x:DataType="viewModels:ConsumptionViewModel"
+             Disappearing="ConsumptionPage_OnDisappearing">
 
 
     <ScrollView VerticalOptions="Fill">
         <VerticalStackLayout >
-            <ListView ItemsSource="{Binding Needs }"
+            <ListView x:Name="LvNeeds" ItemsSource="{Binding Needs }"
                             HasUnevenRows="True"
                             SelectedItem="{Binding SelectedNeed}"
                             SelectionMode="Single"
@@ -22,7 +23,7 @@
                             <Border
                                 Padding="2"
                                 Margin="5">
-                                <Grid ColumnDefinitions="50,100,*,35,50" RowDefinitions="50">
+                                <Grid ColumnDefinitions="50,120,*,35,50" RowDefinitions="50">
                                     <Image Grid.Column="0" Source="{Binding Product.Icon}" />
                                     <Label Grid.Column="1" Text="{Binding Factory.Name}" />
                                     <ProgressBar Grid.Column="2" Progress="{Binding FactoryDecimalUsage}" />
