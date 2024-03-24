@@ -17,7 +17,7 @@
                         <Border
                             Padding="2"
                             Margin="5">
-                            <Grid ColumnDefinitions="50,100,*">
+                            <Grid ColumnDefinitions="50,100,*" RowDefinitions="50">
                                 <Image Grid.Column="0" Source="{Binding Icon}" />
 
                                 <Label Grid.Column="1" Text="{Binding Name}" />
