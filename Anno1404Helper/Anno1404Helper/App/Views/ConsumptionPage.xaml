@@ -10,9 +10,9 @@
 
     <ScrollView VerticalOptions="Fill">
         <VerticalStackLayout >
-            <ListView ItemsSource="{Binding Needs }"
+            <ListView x:Name="LvNeeds" ItemsSource="{Binding Needs }"
                             HasUnevenRows="True"
-                            SelectedItem="{Binding SelectedNeed}"
+                            ItemSelected="ListView_OnItemSelected"
                             SelectionMode="Single"
                             VerticalOptions="Fill"
                             HorizontalOptions="Fill">

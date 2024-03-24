@@ -18,16 +18,6 @@ public partial class ConsumptionViewModel : ObservableObject
         set => SetProperty(ref _needs, value);
     }
     
-    public NeedModel SelectedNeed
-    {
-        get => _selectedNeed;
-        set
-        {
-            if(SetProperty(ref _selectedNeed, value))
-                DisplayConsumptionDetailPage();
-        }
-    }
-    
     public ObservableCollection<PopulationLevelModel> PopulationLevels
     {
         get => _populationLevels;
@@ -67,19 +57,17 @@ public partial class ConsumptionViewModel : ObservableObject
         Needs = new(dico.Values);
     }
     
-    private async void DisplayConsumptionDetailPage()
+    public async Task DisplayConsumptionDetailPage(NeedModel need)
     {
-        if (_selectedNeed == null) return;
+        if (need == null) return;
         // instantiates view and associate it to its viewmodel
         // TODO : Have to define in which order these instructions have to be called to optimize loading of next screen
         var page = new ConsumptionDetailsPage();
         var consumptionViewModel = ServiceHelper.GetService<ConsumptionDetailsViewModel>();
         if (consumptionViewModel == null)
             return;
-        consumptionViewModel.Factory = _selectedNeed.Factory;
+        consumptionViewModel.Factory = need.Factory;
         page.BindingContext = consumptionViewModel;
-        // reset selected need 
-        SelectedNeed = null;
         
         //displays the view 
         await Shell.Current.Navigation.PushAsync(page, true);
