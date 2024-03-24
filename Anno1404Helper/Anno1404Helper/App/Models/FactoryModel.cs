@@ -1,4 +1,3 @@
-using Android.Content.Res;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Anno1404Helper.App.Models;
@@ -11,6 +10,7 @@ public class FactoryModel : ObservableObject
     private string _name;
     private List<OutputModel> _outputs;
     private decimal _productionPerMinute;
+    private int _amoutNeeded;
 
     public int Id
     {
@@ -46,7 +46,6 @@ public class FactoryModel : ObservableObject
         set => SetProperty(ref _productionPerMinute, value);
     }
 
-
     public string IconData
     {
         get => _iconData;
@@ -70,7 +69,13 @@ public class FactoryModel : ObservableObject
     /// Indicates if this factory need inputs.
     /// </summary>
     public bool HasInputs => (_inputs?.Count ?? 0) > 0;
-    
+
+    public int AmoutNeeded
+    {
+        get => _amoutNeeded;
+        set => SetProperty(ref _amoutNeeded, value);
+    }
+
     public override bool Equals(object obj)
     {
         var factory = obj as FactoryModel;

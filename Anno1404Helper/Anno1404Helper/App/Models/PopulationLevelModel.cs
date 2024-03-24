@@ -11,6 +11,7 @@ public class PopulationLevelModel : ObservableObject
     private List<NeedModel> _need;
     private decimal _fullHouse;
     private int? _residenceUpgradeAmountMaxPercent;
+    private int _order;
 
     public int Id
     {
@@ -64,6 +65,12 @@ public class PopulationLevelModel : ObservableObject
     {
         get => _residenceUpgradeAmountMaxPercent;
         set => SetProperty(ref _residenceUpgradeAmountMaxPercent, value);
+    }
+
+    public int Order
+    {
+        get => _order;
+        set => SetProperty(ref _order, value);
     }
 
     public ReturnType ReturnType => _id == 51910 ? ReturnType.Done : ReturnType.Next;

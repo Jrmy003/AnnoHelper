@@ -40,7 +40,8 @@ public partial class PopulationLevelsViewModel : ObservableObject
         // load json and convert everything to models
         await _anno1404Service.LoadJsonAsync();
         // gets population levels models to display
-        PopulationLevels = new ObservableCollection<PopulationLevelModel>(_anno1404Service.PopulationLevelModels);
+        PopulationLevels = new ObservableCollection<PopulationLevelModel>(_anno1404Service
+            .PopulationLevelModels.OrderBy(x=>x.Order));
     }
 
     [RelayCommand]

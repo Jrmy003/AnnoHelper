@@ -14,6 +14,7 @@ public static class PopulationLevelFactory
             Id = populationLevel.Guid,
             Name = populationLevel.LocaText.English,
             IconData = populationLevel.Base64Icon,
+            Order = populationLevel.Order,
             Need = populationLevel.Needs.ConvertAll(NeedFactory.ToModel),
             FullHouse = populationLevel.FullHouse,
             ResidenceUpgradeAmountMaxPercent = populationLevel.ResidenceUpgradeAmountMaxPercent

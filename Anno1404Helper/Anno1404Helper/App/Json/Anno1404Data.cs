@@ -69,6 +69,7 @@ public class PopulationLevel
     public int FullHouse { get; set; }
     public int Guid { get; set; }
     public string IconPath { get; set; }
+    public int Order { get; set; }
     public LocaText LocaText { get; set; }
     public string Name { get; set; }
     public List<Need> Needs { get; set; }
