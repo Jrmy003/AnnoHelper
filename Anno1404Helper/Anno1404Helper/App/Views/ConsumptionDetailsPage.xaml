@@ -14,8 +14,9 @@
                 BackgroundColor="{AppThemeBinding
                 Light={StaticResource Gray100},
                 Dark={StaticResource Gray600}}">
-                <Grid ColumnDefinitions="50,*,50">
-                    <Image Grid.Column="0" Source="{Binding Factory.Icon}" />
+                <Grid ColumnDefinitions="50,*,50" RowDefinitions="50">
+                    <Image Grid.Column="0"
+                           Source="{Binding Factory.Icon}" />
                     <Label Grid.Column="1" Text="{Binding Factory.Name}" />
                     <Label Grid.Column="2" Text="1" />
                 </Grid>
