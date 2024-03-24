@@ -27,8 +27,8 @@
                             Padding="2"
                             Margin="5">
                             <Grid ColumnDefinitions="50,*,50">
-                                <Image Grid.Column="0" Source="{Binding Factory.Icon}" />
-                                <Label Grid.Column="1" Text="{Binding Factory.Name}" />
+                                <Image Grid.Column="0" Source="{Binding ChildFactory.Icon}" />
+                                <Label Grid.Column="1" Text="{Binding ChildFactory.Name}" />
                                 <Label Grid.Column="2" Text="{Binding NeededFactories,
                                 StringFormat='{0:F0}'}" />
                             </Grid>

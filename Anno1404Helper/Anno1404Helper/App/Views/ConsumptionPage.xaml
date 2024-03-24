@@ -10,8 +10,6 @@
 
     <ScrollView VerticalOptions="Fill">
         <VerticalStackLayout >
-            <StackLayout></StackLayout>
-                
             <ListView ItemsSource="{Binding Needs }"
                             HasUnevenRows="True"
                             SelectedItem="{Binding SelectedNeed}"

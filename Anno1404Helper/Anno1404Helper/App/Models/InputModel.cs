@@ -6,7 +6,8 @@ public class InputModel : ObservableObject
 {
     private decimal _amount;
     private int _productId;
-    private FactoryModel _factory;
+    private FactoryModel _childFactory;
+    private FactoryModel _parentFactory;
 
     public decimal Amount
     {
@@ -20,11 +21,17 @@ public class InputModel : ObservableObject
         set => SetProperty(ref _productId, value);
     }
 
-    public FactoryModel Factory
+    public FactoryModel ChildFactory
     {
-        get => _factory;
-        set => SetProperty(ref _factory, value);
+        get => _childFactory;
+        set => SetProperty(ref _childFactory, value);
+    }
+    
+    public FactoryModel ParentFactoryModel
+    {
+        get => _parentFactory;
+        set => SetProperty(ref _parentFactory, value);
     }
 
-    public decimal NeededFactories => Factory.ProductionPerMinute;
+    public decimal NeededFactories => Math.Ceiling(_parentFactory.ProductionPerMinute * Amount / (_childFactory.ProductionPerMinute * _childFactory.Outputs[0]?.Amount ?? 1));
 }

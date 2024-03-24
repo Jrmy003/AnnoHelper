@@ -2,13 +2,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Anno1404Helper.App.Models;
 
-public class OutputModel : ObservableObject
+public class  OutputModel : ObservableObject
 {
-    private int _amount;
+    private decimal _amount;
     private int _productId;
     private ProductModel _product;
 
-    public int Amount
+    public decimal Amount
     {
         get => _amount;
         set => SetProperty(ref _amount, value);

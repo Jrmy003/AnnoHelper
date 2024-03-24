@@ -47,10 +47,10 @@ public class ConsumptionDetailsViewModel : ObservableObject
         // Parcourir tous les voisins non visités du sommet actuel
         foreach (InputModel neighbor in factory.Inputs)
         {
-            if (!visited.Contains(neighbor.Factory.Id))
+            if (!visited.Contains(neighbor.ChildFactory.Id))
             {
                 Nodes.Add(neighbor);
-                DfsUtil(neighbor.Factory, visited);
+                DfsUtil(neighbor.ChildFactory, visited);
             }
         }
     }

@@ -5,7 +5,7 @@ namespace Anno1404Helper.App.Factories;
 
 public static class InputFactory
 {
-    public static InputModel ToModel(Input input)
+    public static InputModel ToModel(Input input, FactoryModel parentFactory)
     {
         if (input == null) throw new ArgumentNullException(nameof(input));
         
@@ -13,7 +13,8 @@ public static class InputFactory
         {
             Amount = input.Amount,
             ProductId = input.Product,
-            Factory = FactoryFactory.ToModel(input.Factory)
+            ChildFactory = FactoryFactory.ToModel(input.Factory),
+            ParentFactoryModel = parentFactory
         };
     }
 }

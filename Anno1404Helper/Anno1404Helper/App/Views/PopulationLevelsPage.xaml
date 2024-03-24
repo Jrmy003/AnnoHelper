@@ -14,26 +14,24 @@
                             SelectedItem="{Binding SelectedItem}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PopulationLevelModel">
-                        <Grid ColumnDefinitions="50,100,*"
-                              Padding="2">
-                            <toolkit:AvatarView Grid.Column="0"
-                                                BorderColor="{AppThemeBinding
-                                                Light={StaticResource Primary},
-                                                Dark={StaticResource Quaternary}}"
-                                                BorderWidth="2"
-                                                ImageSource="{Binding Icon}" />
+                        <Border
+                            Padding="2"
+                            Margin="5">
+                            <Grid ColumnDefinitions="50,100,*">
+                                <Image Grid.Column="0" Source="{Binding Icon}" />
 
-                            <Label Grid.Column="1" Text="{Binding Name}" />
+                                <Label Grid.Column="1" Text="{Binding Name}" />
 
-                            <Entry Grid.Column="2"
-                                   Text="{Binding Count,
+                                <Entry Grid.Column="2"
+                                       Text="{Binding Count,
                             FallbackValue='', TargetNullValue=''}"
-                                   Keyboard="Numeric"
-                                   Placeholder="Number"
-                                   ReturnType="{Binding ReturnType}"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center" />
-                        </Grid>
+                                       Keyboard="Numeric"
+                                       Placeholder="Number"
+                                       ReturnType="{Binding ReturnType}"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

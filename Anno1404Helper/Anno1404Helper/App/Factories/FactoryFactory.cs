@@ -9,14 +9,15 @@ public static class FactoryFactory
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
 
-        return new FactoryModel
+        var ret = new FactoryModel
         {
             Id = factory.Guid,
             Name = factory.LocaText.English,
             ProductionPerMinute = factory.Tpmin * factory.Outputs[0]?.Amount ?? 1,
             IconData = factory.Base64Icon,
-            Inputs = factory.Inputs.ConvertAll(InputFactory.ToModel),
             Outputs = factory.Outputs.ConvertAll(OutputFactory.ToModel)
         };
+        ret.Inputs = factory.Inputs.ConvertAll(x => InputFactory.ToModel(x, ret));
+        return ret;
     }
 }
