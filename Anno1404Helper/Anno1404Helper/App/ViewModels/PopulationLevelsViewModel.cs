@@ -11,7 +11,7 @@ namespace Anno1404Helper.App.ViewModels;
 public partial class PopulationLevelsViewModel : ObservableObject
 {
     private ObservableCollection<PopulationLevelModel> _populationLevels;
-    private PopulationLevelModel _selectedPopulationLevel;
+    private PopulationLevelModel _selectedItem;
 
     public ObservableCollection<PopulationLevelModel> PopulationLevels
     {
@@ -19,10 +19,10 @@ public partial class PopulationLevelsViewModel : ObservableObject
         set => SetProperty(ref _populationLevels, value);
     }
 
-    public PopulationLevelModel SelectedPopulationLevel
+    public PopulationLevelModel SelectedItem
     {
-        get => _selectedPopulationLevel;
-        set => SetProperty(ref _selectedPopulationLevel, value);
+        get => _selectedItem;
+        set => SetProperty(ref _selectedItem, value);
     }
 
     private readonly Anno1404Service _anno1404Service = ServiceHelper.GetService<Anno1404Service>();
@@ -41,22 +41,19 @@ public partial class PopulationLevelsViewModel : ObservableObject
         await _anno1404Service.LoadJsonAsync();
         // gets population levels models to display
         PopulationLevels = new ObservableCollection<PopulationLevelModel>(_anno1404Service
-            .PopulationLevelModels);
+            .PopulationLevelModels.OrderBy(x=>x.Order));
     }
 
     [RelayCommand]
     private async Task ComputeNeeds()
     {
-        // gets the page
-        var page = ServiceHelper.GetService<ConsumptionPage>();
-        if (page == null) return;
-        
-        // gets its viewmodel already associated via IOC
+        // instantiates view and associate it to its viewmodel
+        var page = new ConsumptionPage();
         var consumptionViewModel = ServiceHelper.GetService<ConsumptionViewModel>();
-        if (consumptionViewModel == null) return;
-        
-        // update the view model data
+        if (consumptionViewModel == null)
+            return;
         consumptionViewModel.PopulationLevels = PopulationLevels;
+        page.BindingContext = consumptionViewModel;
         
         //displays the view 
         await Shell.Current.Navigation.PushAsync(page, true);

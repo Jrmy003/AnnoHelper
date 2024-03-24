@@ -1,7 +1,6 @@
 ﻿using Anno1404Helper.App.Helpers;
 using Anno1404Helper.App.Services;
 using Anno1404Helper.App.ViewModels;
-using Anno1404Helper.App.Views;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
@@ -21,8 +20,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             })
             .RegisterViewModels()
-            .RegisterServices()
-            .RegisterViews();
+            .RegisterServices();
 
 #if DEBUG
         builder.Logging.AddDebug();
@@ -49,12 +47,10 @@ public static class MauiProgram
         return mauiAppBuilder;
     }
     
-    
-    private static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
-    {
-        mauiAppBuilder.Services.AddSingleton<PopulationLevelsPage>();
-        mauiAppBuilder.Services.AddSingleton<ConsumptionPage>();
-        mauiAppBuilder.Services.AddSingleton<ConsumptionDetailsPage>();
-        return mauiAppBuilder;
-    }
+    //
+    // private static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
+    // {
+    //     mauiAppBuilder.Services.AddSingleton<PopulationLevelsPage>();
+    //     return mauiAppBuilder;
+    // }
 }

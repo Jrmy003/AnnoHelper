@@ -1,12 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Anno1404Helper.App.Helpers;
 using Anno1404Helper.App.ViewModels;
 
 namespace Anno1404Helper.App.Views;
 
 public partial class ConsumptionDetailsPage : ContentPage
 {
-    public ConsumptionDetailsPage(ConsumptionDetailsViewModel vm)
+    public ConsumptionDetailsPage()
     {
         InitializeComponent();
-        BindingContext = vm;
+        BindingContext = ServiceHelper.GetService<ConsumptionDetailsViewModel>();
     }
 }

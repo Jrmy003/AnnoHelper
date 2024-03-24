@@ -27,7 +27,6 @@
     {
       "guid": 30010,
       "iconPath": "116:34",
-      "templatePath": "4-4x3",
       "inputs": [
       ],
       "locaText": {
@@ -52,7 +51,6 @@
     {
       "guid": 30020,
       "iconPath": "116:43",
-      "templatePath": "4-4x3",
       "inputs": [
       ],
       "locaText": {

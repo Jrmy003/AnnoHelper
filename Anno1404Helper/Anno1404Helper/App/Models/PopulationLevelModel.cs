@@ -12,7 +12,6 @@ public class PopulationLevelModel : ObservableObject
     private decimal _fullHouse;
     private int? _residenceUpgradeAmountMaxPercent;
     private int _order;
-    private ImageSource _icon;
 
     public int Id
     {
@@ -48,8 +47,12 @@ public class PopulationLevelModel : ObservableObject
 
     public ImageSource Icon
     {
-        get => _icon;
-        set => SetProperty(ref _icon, value);
+        get
+        {
+            var imageBytes = Convert.FromBase64String(IconData);
+            MemoryStream imageDecodeStream = new(imageBytes);
+            return ImageSource.FromStream(() => imageDecodeStream);
+        }
     }
 
     public decimal FullHouse

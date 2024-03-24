@@ -7,7 +7,6 @@ public class ProductModel : ObservableObject
     private int _id;
     private string _iconData;
     private string _name;
-    private ImageSource _icon;
 
     public int Id
     {
@@ -29,7 +28,11 @@ public class ProductModel : ObservableObject
     
     public ImageSource Icon
     {
-        get => _icon;
-        set => SetProperty(ref _icon, value);
+        get
+        {
+            var imageBytes = Convert.FromBase64String(IconData);
+            MemoryStream imageDecodeStream = new(imageBytes);
+            return ImageSource.FromStream(() => imageDecodeStream);
+        }
     }
 }

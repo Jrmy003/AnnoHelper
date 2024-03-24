@@ -11,37 +11,36 @@ public partial class ConsumptionViewModel : ObservableObject
     private ObservableCollection<NeedModel> _needs;
     private NeedModel _selectedNeed;
     private ObservableCollection<PopulationLevelModel> _populationLevels;
-
+    
     public ObservableCollection<NeedModel> Needs
     {
         get => _needs;
         set => SetProperty(ref _needs, value);
     }
-
+    
     public NeedModel SelectedNeed
     {
         get => _selectedNeed;
         set
         {
-            DisplayConsumptionDetailPage(value);
-            // selection not need, juste handle selection changed in vm to open ConsumptionDetailsViewModel
-            SetProperty(ref _selectedNeed, null);
+            if(SetProperty(ref _selectedNeed, value))
+                DisplayConsumptionDetailPage();
         }
     }
-
+    
     public ObservableCollection<PopulationLevelModel> PopulationLevels
     {
         get => _populationLevels;
         set
         {
             SetProperty(ref _populationLevels, value);
-            ComputeNeeds();
+                ComputeNeeds();
         }
     }
 
     private void ComputeNeeds()
     {
-        if (_populationLevels == null) return;
+        if(_populationLevels == null) return;
         // cumulates needs of every population level in a flat list using dictionary
         var dico = new Dictionary<int, NeedModel>();
         foreach (var populationLevelModel in _populationLevels)
@@ -58,39 +57,31 @@ public partial class ConsumptionViewModel : ObservableObject
                     var newNeed = new NeedModel
                     {
                         Product = need.Product,
-                        ConsumptionPerMinute = (populationLevelModel.Count ?? 0 / populationLevelModel.FullHouse) *
-                                               need.ConsumptionPerMinute,
+                        ConsumptionPerMinute = (populationLevelModel.Count ?? 0 / populationLevelModel.FullHouse) * need.ConsumptionPerMinute,
                         Factory = need.Factory
                     };
                     dico.Add(need.Product.Id, newNeed);
                 }
             }
         }
-
         Needs = new(dico.Values);
     }
-
-    private async void DisplayConsumptionDetailPage(NeedModel need)
+    
+    private async void DisplayConsumptionDetailPage()
     {
-        if (need == null) return;
-
-        // gets the page
-        var page = ServiceHelper.GetService<ConsumptionDetailsPage>();
-        if (page == null) return;
-
-        // gets its viewmodel already associated via IOC
+        if (_selectedNeed == null) return;
+        // instantiates view and associate it to its viewmodel
+        // TODO : Have to define in which order these instructions have to be called to optimize loading of next screen
+        var page = new ConsumptionDetailsPage();
         var consumptionViewModel = ServiceHelper.GetService<ConsumptionDetailsViewModel>();
         if (consumptionViewModel == null)
             return;
-        //
-        // var consumptionViewModel = new ConsumptionDetailsViewModel
-        // {
-        //     // update the view model data
-        //     Factory = need.Factory
-        // };
-
+        consumptionViewModel.Factory = _selectedNeed.Factory;
+        page.BindingContext = consumptionViewModel;
+        // reset selected need 
+        SelectedNeed = null;
+        
         //displays the view 
-        // await Shell.Current.Navigation.PushAsync(new ConsumptionDetailsPage(consumptionViewModel), true);
         await Shell.Current.Navigation.PushAsync(page, true);
     }
 }

@@ -9,15 +9,12 @@ public static class FactoryFactory
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
 
-        var imageBytes = Convert.FromBase64String(factory.Base64Icon);
-        MemoryStream imageDecodeStream = new(imageBytes);
-        
         var ret = new FactoryModel
         {
             Id = factory.Guid,
             Name = factory.LocaText.English,
             ProductionPerMinute = factory.Tpmin * factory.Outputs[0]?.Amount ?? 1,
-            Icon = ImageSource.FromStream(() => imageDecodeStream),
+            IconData = factory.Base64Icon,
             Outputs = factory.Outputs.ConvertAll(OutputFactory.ToModel)
         };
         ret.Inputs = factory.Inputs.ConvertAll(x => InputFactory.ToModel(x, ret));

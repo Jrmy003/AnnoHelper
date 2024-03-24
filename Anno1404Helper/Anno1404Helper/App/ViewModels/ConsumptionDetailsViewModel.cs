@@ -8,7 +8,6 @@ public class ConsumptionDetailsViewModel : ObservableObject
 {
     private FactoryModel _factory;
     private ObservableCollection<InputModel> _nodes;
-    private ImageSource _factoryIcon;
 
     public FactoryModel Factory
     {
@@ -16,17 +15,8 @@ public class ConsumptionDetailsViewModel : ObservableObject
         set
         {
             if (SetProperty(ref _factory, value))
-            {
-                FactoryIcon = _factory?.Icon;
                 UpdateProductionChains();
-            }
         }
-    }
-
-    public ImageSource FactoryIcon
-    {
-        get => _factoryIcon;
-        set => SetProperty(ref _factoryIcon, value);
     }
 
     public ObservableCollection<InputModel> Nodes
