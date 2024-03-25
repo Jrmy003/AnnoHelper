@@ -11,8 +11,7 @@ public static class InputFactory
         
         return new InputModel
         {
-            Amount = input.Amount,
-            ProductId = input.Product,
+            ProductAmount = input.Amount,
             ChildFactory = FactoryFactory.ToModel(input.Factory),
             ParentFactoryModel = parentFactory
         };

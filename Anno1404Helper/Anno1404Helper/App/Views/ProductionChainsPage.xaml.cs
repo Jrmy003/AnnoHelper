@@ -8,11 +8,11 @@ using Anno1404Helper.App.ViewModels;
 
 namespace Anno1404Helper.App.Views;
 
-public partial class ConsumptionDetailsPage : ContentPage
+public partial class ProductionChainsPage : ContentPage
 {
-    public ConsumptionDetailsPage()
+    public ProductionChainsPage()
     {
         InitializeComponent();
-        BindingContext = ServiceHelper.GetService<ConsumptionDetailsViewModel>();
+        BindingContext = ServiceHelper.GetService<ProductionChainsViewModel>();
     }
 }

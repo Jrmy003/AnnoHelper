@@ -10,5 +10,7 @@
                 <ResourceDictionary Source="../Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+        <!-- Converters -->
+        <!-- <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/> -->
     </Application.Resources>
 </Application>

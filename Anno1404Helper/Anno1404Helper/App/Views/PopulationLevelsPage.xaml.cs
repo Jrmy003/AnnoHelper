@@ -10,4 +10,11 @@ public partial class PopulationLevelsPage : ContentPage
         BindingContext = ServiceHelper.GetService<PopulationLevelsViewModel>();
         InitializeComponent();
     }
+
+    private void VisualElement_OnFocused(object sender, FocusEventArgs e)
+    {
+        // var entry = sender as Entry;
+        // if (entry == null) return;
+        // entry.Text = string.Empty;
+    }
 }

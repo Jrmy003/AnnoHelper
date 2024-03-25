@@ -32,6 +32,7 @@ public class Anno1404Service
         foreach (var factory in Anno1404Data.Factories)
         {
             factory.Base64Icon = GetBase64Icon(factory.IconPath);
+            factory.Base64Template = GetBase64Icon(factory.TemplatePath);
             foreach (var input in factory.Inputs)
             {
                 input.ProductObject = Anno1404Data.Products.FirstOrDefault(x => x.Guid == input.Product);
@@ -76,6 +77,7 @@ public class Anno1404Service
     /// <returns></returns>
     private string GetBase64Icon(string iconPath)
     {
+        if (iconPath == null) return null;
         return Anno1404Data.Icons.TryGetValue(iconPath, out var icon)
             ? icon.Substring(22)
             : null;

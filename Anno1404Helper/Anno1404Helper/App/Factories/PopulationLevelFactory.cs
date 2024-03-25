@@ -16,8 +16,7 @@ public static class PopulationLevelFactory
             IconData = populationLevel.Base64Icon,
             Order = populationLevel.Order,
             Need = populationLevel.Needs.ConvertAll(NeedFactory.ToModel),
-            FullHouse = populationLevel.FullHouse,
-            ResidenceUpgradeAmountMaxPercent = populationLevel.ResidenceUpgradeAmountMaxPercent
+            FullHouse = populationLevel.FullHouse
         };
     }
 }

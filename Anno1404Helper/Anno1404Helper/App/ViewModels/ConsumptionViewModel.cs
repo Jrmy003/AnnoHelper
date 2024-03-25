@@ -9,7 +9,6 @@ namespace Anno1404Helper.App.ViewModels;
 public partial class ConsumptionViewModel : ObservableObject
 {
     private ObservableCollection<NeedModel> _needs;
-    private NeedModel _selectedNeed;
     private ObservableCollection<PopulationLevelModel> _populationLevels;
     
     public ObservableCollection<NeedModel> Needs
@@ -24,7 +23,7 @@ public partial class ConsumptionViewModel : ObservableObject
         set
         {
             SetProperty(ref _populationLevels, value);
-                ComputeNeeds();
+            Task.Factory.StartNew(ComputeNeeds, TaskCreationOptions.LongRunning);
         }
     }
 
@@ -39,7 +38,7 @@ public partial class ConsumptionViewModel : ObservableObject
             {
                 if (dico.TryGetValue(need.Product.Id, out var value))
                 {
-                    value.ConsumptionPerMinute += (populationLevelModel.Count ??
+                    value.ConsumptionPerMinute += (populationLevelModel.Amount ??
                                                    0 / populationLevelModel.FullHouse) * need.ConsumptionPerMinute;
                 }
                 else
@@ -47,7 +46,7 @@ public partial class ConsumptionViewModel : ObservableObject
                     var newNeed = new NeedModel
                     {
                         Product = need.Product,
-                        ConsumptionPerMinute = (populationLevelModel.Count ?? 0 / populationLevelModel.FullHouse) * need.ConsumptionPerMinute,
+                        ConsumptionPerMinute = (populationLevelModel.Amount ?? 0 / populationLevelModel.FullHouse) * need.ConsumptionPerMinute,
                         Factory = need.Factory
                     };
                     dico.Add(need.Product.Id, newNeed);
@@ -62,11 +61,15 @@ public partial class ConsumptionViewModel : ObservableObject
         if (need == null) return;
         // instantiates view and associate it to its viewmodel
         // TODO : Have to define in which order these instructions have to be called to optimize loading of next screen
-        var page = new ConsumptionDetailsPage();
-        var consumptionViewModel = ServiceHelper.GetService<ConsumptionDetailsViewModel>();
+        var page = new ProductionChainsPage();
+        var consumptionViewModel = ServiceHelper.GetService<ProductionChainsViewModel>();
         if (consumptionViewModel == null)
             return;
-        consumptionViewModel.Factory = need.Factory;
+        consumptionViewModel.InputModel = new InputModel
+        {
+            ChildFactory = need.Factory,
+            NeededAmount = need.NbFactoriesNeeded,
+        };
         page.BindingContext = consumptionViewModel;
         
         //displays the view 

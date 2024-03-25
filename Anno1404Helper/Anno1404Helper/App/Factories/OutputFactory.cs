@@ -12,7 +12,6 @@ public static class OutputFactory
         return new OutputModel
         {
             Amount = input.Amount,
-            ProductId = input.Product,
             Product = ProductFactory.ToModel(input.ProductObject)
         };
     }

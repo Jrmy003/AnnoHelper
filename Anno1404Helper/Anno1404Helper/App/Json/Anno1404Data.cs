@@ -8,12 +8,14 @@ public class Factory
 {
     public int Guid { get; set; }
     public string IconPath { get; set; }
+    public string TemplatePath { get; set; }
     public List<Input> Inputs { get; set; }
     public LocaText LocaText { get; set; }
     public string Name { get; set; }
     public List<Output> Outputs { get; set; }
     public decimal Tpmin { get; set; }
     public string Base64Icon { get; set; }
+    public string Base64Template { get; set; }
 }
 
 public class GoodsProduction

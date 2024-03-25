@@ -23,7 +23,8 @@
                                 <Label Grid.Column="1" Text="{Binding Name}" />
 
                                 <Entry Grid.Column="2"
-                                       Text="{Binding Count,
+                                       Focused="VisualElement_OnFocused"
+                                       Text="{Binding Amount,
                             FallbackValue='', TargetNullValue=''}"
                                        Keyboard="Numeric"
                                        Placeholder="Number"

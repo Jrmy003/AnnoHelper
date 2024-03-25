@@ -15,6 +15,7 @@ public static class FactoryFactory
             Name = factory.LocaText.English,
             ProductionPerMinute = factory.Tpmin * factory.Outputs[0]?.Amount ?? 1,
             IconData = factory.Base64Icon,
+            TemplateData = factory.Base64Template,
             Outputs = factory.Outputs.ConvertAll(OutputFactory.ToModel)
         };
         ret.Inputs = factory.Inputs.ConvertAll(x => InputFactory.ToModel(x, ret));

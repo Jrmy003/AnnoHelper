@@ -4,24 +4,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Anno1404Helper.App.ViewModels"
              xmlns:models="clr-namespace:Anno1404Helper.App.Models"
-             x:Class="Anno1404Helper.App.Views.ConsumptionDetailsPage"
-             x:DataType="viewModels:ConsumptionDetailsViewModel">
+             x:Class="Anno1404Helper.App.Views.ProductionChainsPage"
+             x:DataType="viewModels:ProductionChainsViewModel">
     <ScrollView>
         <VerticalStackLayout>
-            <Border
-                Padding="2"
-                Margin="5"
-                BackgroundColor="{AppThemeBinding
-                Light={StaticResource Gray100},
-                Dark={StaticResource Gray600}}">
-                <Grid ColumnDefinitions="50,*,50" RowDefinitions="50">
-                    <Image Grid.Column="0"
-                           Source="{Binding Factory.Icon}" />
-                    <Label Grid.Column="1" Text="{Binding Factory.Name}" />
-                    <Label Grid.Column="2" Text="1" />
-                </Grid>
-            </Border>
-            <ListView ItemsSource="{Binding Nodes }"
+            <!-- Production Chain -->
+            <ListView ItemsSource="{Binding ProductionChains }"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:InputModel">
@@ -35,6 +23,24 @@
                                     <Label Grid.Column="2"
                                            Text="{Binding NeededFactories,
                                 StringFormat='{0:F0}'}" />
+                                </Grid>
+                            </Border>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!-- Templates -->
+            <ListView ItemsSource="{Binding Templates }"
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:InputModel">
+                        <ViewCell>
+                            <Border
+                                Padding="2"
+                                Margin="5">
+                                <Grid ColumnDefinitions="*" RowDefinitions="50,*">
+                                    <Image Grid.Column="0" Grid.Row="0" Source="{Binding ChildFactory.Icon}" />
+                                    <Image Grid.Column="0" Grid.Row="1" Source="{Binding ChildFactory.Template}" />
                                 </Grid>
                             </Border>
                         </ViewCell>
