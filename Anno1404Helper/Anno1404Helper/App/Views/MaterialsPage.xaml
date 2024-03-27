@@ -3,35 +3,29 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Anno1404Helper.App.ViewModels"
-             Title="Consumptions"
+             Title="Materials"
              xmlns:models="clr-namespace:Anno1404Helper.App.Models"
-             x:Class="Anno1404Helper.App.Views.ConsumptionPage"
-             x:DataType="viewModels:ConsumptionViewModel">
+             x:Class="Anno1404Helper.App.Views.MaterialsPage"
+             x:DataType="viewModels:MaterialsViewModel">
 
 
     <ScrollView VerticalOptions="Fill">
         <VerticalStackLayout >
-            <ListView x:Name="LvNeeds" ItemsSource="{Binding Needs }"
+            <ListView x:Name="LvNeeds" ItemsSource="{Binding Factories }"
                             HasUnevenRows="True"
                             ItemSelected="ListView_OnItemSelected"
                             SelectionMode="Single"
                             VerticalOptions="Fill"
                             HorizontalOptions="Fill">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:NeedModel">
+                    <DataTemplate x:DataType="models:FactoryModel">
                         <ViewCell>
                             <Border
                                 Padding="2"
                                 Margin="5">
-                                <Grid ColumnDefinitions="50,100,*,35,50" RowDefinitions="50">
-                                    <Image Grid.Column="0" Source="{Binding Factory.Icon}" />
-                                    <Label Grid.Column="1" Text="{Binding Factory.Name}" />
-                                    <ProgressBar Grid.Column="2" Progress="{Binding FactoryDecimalUsage}" />
-                                    <Label Grid.Column="3" Text="{Binding FactoryPercentUsage, StringFormat='{0:F0}%'}" />
-                                    <Label Grid.Column="4"
-                                           FontAttributes="Bold"
-                                           Text="{Binding NbFactoriesNeeded,
-                            StringFormat='{0:F0}'}" />
+                                <Grid ColumnDefinitions="50,*" RowDefinitions="50">
+                                    <Image Grid.Column="0" Source="{Binding Icon}" />
+                                    <Label Grid.Column="1" Text="{Binding Name}" />
                                 </Grid>
                             </Border>
                         </ViewCell>

@@ -7,10 +7,12 @@ namespace Anno1404Helper.App.Services;
 
 public class Anno1404Service
 {
+    private const int ConsumerGoodsProductFilterId = 502031; 
+    private const int MaterialsProductFilterId = 501957; 
     public List<PopulationLevelModel> PopulationLevelModels { get; set; }
-    public List<FactoryModel> FactoryModels { get; set; }
-    public Anno1404Data Anno1404Data { get; set; }
-    
+    private List<ProductFilterModel> ProductFilters { get; set; }
+    private Anno1404Data Anno1404Data { get; set; }
+
     /// <summary>
     /// Loads json and convert json structure to internal models structure
     /// </summary>
@@ -19,7 +21,7 @@ public class Anno1404Service
     {
         await using var stream = await FileSystem.OpenAppPackageFileAsync("params_origin.json");
         using var reader = new StreamReader(stream);
-        
+
         Anno1404Data = JsonConvert.DeserializeObject<Anno1404Data>(await reader.ReadToEndAsync());
 
         //loads products icons
@@ -36,15 +38,16 @@ public class Anno1404Service
             foreach (var input in factory.Inputs)
             {
                 input.ProductObject = Anno1404Data.Products.FirstOrDefault(x => x.Guid == input.Product);
-                input.Factory = Anno1404Data.Factories.FirstOrDefault(x => x.Outputs[0]?.Product == input.Product);
+                input.FactoryObject =
+                    Anno1404Data.Factories.FirstOrDefault(x => x.Outputs[0]?.Product == input.Product);
             }
-            
+
             foreach (var output in factory.Outputs)
             {
                 output.ProductObject = Anno1404Data.Products.FirstOrDefault(x => x.Guid == output.Product);
             }
         }
-        
+
         // loads icons to population levels, and associate factory to need through product id
         foreach (var populationLevel in Anno1404Data.PopulationLevels)
         {
@@ -62,12 +65,44 @@ public class Anno1404Service
                     }
                 }
             }
-
         }
-        
+
+        // chargement des products filters
+        foreach (var productFilter in Anno1404Data.ProductFilter)
+        {
+            foreach (var productId in productFilter.Products)
+            {
+                var product = Anno1404Data.Products.FirstOrDefault(x => x.Guid == productId);
+                if (product == null) continue;
+                if (product.Producers?.Count != 1) continue;
+                productFilter.ProductObjects.Add(product);
+                var factory = Anno1404Data.Factories.FirstOrDefault(x => x.Guid == product.Producers[0]);
+                if (factory == null) continue;
+                productFilter.FactoryObjects.Add(factory);
+            }
+        }
+
         // saves data in service while app dont not have database
         PopulationLevelModels = Anno1404Data.PopulationLevels.ConvertAll(PopulationLevelFactory.ToModel);
-        FactoryModels = Anno1404Data.Factories.ConvertAll(FactoryFactory.ToModel);
+        ProductFilters = Anno1404Data.ProductFilter.ConvertAll(ProductFilterFactory.ToModel);
+    }
+
+    /// <summary>
+    /// Gets materials.
+    /// </summary>
+    /// <returns></returns>
+    public ProductFilterModel GetMaterials()
+    {
+        return ProductFilters.FirstOrDefault(x => x.Guid == MaterialsProductFilterId);
+    }
+    
+    /// <summary>
+    /// Gets consumer goods.
+    /// </summary>
+    /// <returns></returns>
+    public ProductFilterModel GetConsumerGoods()
+    {
+        return ProductFilters.FirstOrDefault(x => x.Guid == ConsumerGoodsProductFilterId);
     }
 
     /// <summary>

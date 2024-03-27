@@ -12,7 +12,7 @@ public static class InputFactory
         return new InputModel
         {
             ProductAmount = input.Amount,
-            ChildFactory = FactoryFactory.ToModel(input.Factory),
+            ChildFactory = FactoryFactory.ToModel(input.FactoryObject),
             ParentFactoryModel = parentFactory
         };
     }

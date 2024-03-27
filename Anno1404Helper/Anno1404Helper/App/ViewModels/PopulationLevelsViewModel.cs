@@ -11,18 +11,11 @@ namespace Anno1404Helper.App.ViewModels;
 public partial class PopulationLevelsViewModel : ObservableObject
 {
     private ObservableCollection<PopulationLevelModel> _populationLevels;
-    private PopulationLevelModel _selectedItem;
 
     public ObservableCollection<PopulationLevelModel> PopulationLevels
     {
         get => _populationLevels;
         set => SetProperty(ref _populationLevels, value);
-    }
-
-    public PopulationLevelModel SelectedItem
-    {
-        get => _selectedItem;
-        set => SetProperty(ref _selectedItem, value);
     }
 
     private readonly Anno1404Service _anno1404Service = ServiceHelper.GetService<Anno1404Service>();
@@ -45,7 +38,7 @@ public partial class PopulationLevelsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task ComputeNeeds()
+    private async Task DisplayConsumptionPage()
     {
         // instantiates view and associate it to its viewmodel
         var page = new ConsumptionPage();
@@ -53,6 +46,20 @@ public partial class PopulationLevelsViewModel : ObservableObject
         if (consumptionViewModel == null)
             return;
         consumptionViewModel.PopulationLevels = PopulationLevels;
+        page.BindingContext = consumptionViewModel;
+        
+        //displays the view 
+        await Shell.Current.Navigation.PushAsync(page, true);
+    }
+    
+    [RelayCommand]
+    private async Task DisplayMaterialsPage()
+    {
+        // instantiates view and associate it to its viewmodel
+        var page = new MaterialsPage();
+        var consumptionViewModel = ServiceHelper.GetService<MaterialsViewModel>();
+        if (consumptionViewModel == null)
+            return;
         page.BindingContext = consumptionViewModel;
         
         //displays the view 

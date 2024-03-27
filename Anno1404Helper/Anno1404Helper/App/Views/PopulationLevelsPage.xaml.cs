@@ -13,8 +13,9 @@ public partial class PopulationLevelsPage : ContentPage
 
     private void VisualElement_OnFocused(object sender, FocusEventArgs e)
     {
-        // var entry = sender as Entry;
-        // if (entry == null) return;
-        // entry.Text = string.Empty;
+        // empties the cell after focus
+        var entry = sender as Entry;
+        if (entry == null) return;
+        entry.Text = string.Empty;
     }
 }

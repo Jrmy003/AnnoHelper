@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Anno1404Helper.App.ViewModels;
 
-public partial class ConsumptionViewModel : ObservableObject
+public class ConsumptionViewModel : ObservableObject
 {
     private ObservableCollection<NeedModel> _needs;
     private ObservableCollection<PopulationLevelModel> _populationLevels;
@@ -26,13 +26,13 @@ public partial class ConsumptionViewModel : ObservableObject
             Task.Factory.StartNew(ComputeNeeds, TaskCreationOptions.LongRunning);
         }
     }
-
+    
     private void ComputeNeeds()
     {
         if(_populationLevels == null) return;
         // cumulates needs of every population level in a flat list using dictionary
         var dico = new Dictionary<int, NeedModel>();
-        foreach (var populationLevelModel in _populationLevels)
+        foreach (var populationLevelModel in _populationLevels.OrderBy(x=>x.Id))
         {
             foreach (var need in populationLevelModel.Need)
             {
@@ -68,7 +68,7 @@ public partial class ConsumptionViewModel : ObservableObject
         consumptionViewModel.InputModel = new InputModel
         {
             ChildFactory = need.Factory,
-            NeededAmount = need.NbFactoriesNeeded,
+            NeededAmount = need.NbFactoriesNeeded == 0 ? 1 : need.NbFactoriesNeeded
         };
         page.BindingContext = consumptionViewModel;
         

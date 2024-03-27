@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Anno1404Helper.App.ViewModels"
              xmlns:models="clr-namespace:Anno1404Helper.App.Models"
+             Title="Production Chains"
              x:Class="Anno1404Helper.App.Views.ProductionChainsPage"
              x:DataType="viewModels:ProductionChainsViewModel">
     <ScrollView>

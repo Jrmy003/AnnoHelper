@@ -38,6 +38,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<PopulationLevelsViewModel>();
         mauiAppBuilder.Services.AddSingleton<ConsumptionViewModel>();
         mauiAppBuilder.Services.AddSingleton<ProductionChainsViewModel>();
+        mauiAppBuilder.Services.AddSingleton<MaterialsViewModel>();
         return mauiAppBuilder;
     }
     

@@ -10,34 +10,37 @@
 
     <ScrollView VerticalOptions="Fill">
         <VerticalStackLayout>
-            <CollectionView ItemsSource="{Binding PopulationLevels }"
-                            SelectedItem="{Binding SelectedItem}">
-                <CollectionView.ItemTemplate>
+            <ListView ItemsSource="{Binding PopulationLevels }"
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:PopulationLevelModel">
-                        <Border
-                            Padding="2"
-                            Margin="5">
-                            <Grid ColumnDefinitions="50,100,*" RowDefinitions="50">
-                                <Image Grid.Column="0" Source="{Binding Icon}" />
-
-                                <Label Grid.Column="1" Text="{Binding Name}" />
-
-                                <Entry Grid.Column="2"
-                                       Focused="VisualElement_OnFocused"
-                                       Text="{Binding Amount,
+                        <ViewCell>
+                            <Border
+                                Padding="2"
+                                Margin="5">
+                                <Grid ColumnDefinitions="50,100,*" RowDefinitions="50">
+                                    <Image Grid.Column="0" Source="{Binding Icon}" />
+                                    <Label Grid.Column="1" Text="{Binding Name}" />
+                                    <Entry Grid.Column="2"
+                                           Focused="VisualElement_OnFocused"
+                                           Text="{Binding Amount,
                             FallbackValue='', TargetNullValue=''}"
-                                       Keyboard="Numeric"
-                                       Placeholder="Number"
-                                       ReturnType="{Binding ReturnType}"
-                                       HorizontalTextAlignment="Center"
-                                       VerticalTextAlignment="Center" />
-                            </Grid>
-                        </Border>
+                                           Keyboard="Numeric"
+                                           Placeholder="Number"
+                                           ReturnType="Done"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <Button Text="Compute Needs"
-                    Command="{Binding ComputeNeedsCommand}"
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Consumption"
+                    Command="{Binding DisplayConsumptionPageCommand}"
+                    VerticalOptions="End" />
+            <Button Text="Materials"
+                    Command="{Binding DisplayMaterialsPageCommand}"
                     VerticalOptions="End" />
         </VerticalStackLayout>
     </ScrollView>

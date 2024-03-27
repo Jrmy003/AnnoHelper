@@ -76,6 +76,9 @@
       <MauiXaml Update="App\App.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+      <MauiXaml Update="App\Views\MaterialsPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -89,6 +92,10 @@
       </Compile>
       <Compile Update="App\App.xaml.cs">
         <DependentUpon>App.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="App\Views\MaterialsPage.xaml.cs">
+        <DependentUpon>MaterialsPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

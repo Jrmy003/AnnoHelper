@@ -29,7 +29,7 @@ public class Input
     public decimal Amount { get; set; }
     public int Product { get; set; }
     public Product ProductObject { get; set; }
-    public Factory Factory { get; set; }
+    public Factory FactoryObject { get; set; }
 }
 
 public class LocaText
@@ -97,6 +97,8 @@ public class ProductFilter
     public LocaText LocaText { get; set; }
     public string Name { get; set; }
     public List<int> Products { get; set; }
+    public List<Product> ProductObjects { get; set; } = new ();
+    public List<Factory> FactoryObjects { get; set; } = new ();
 }
 
 public class ResidenceBuilding
